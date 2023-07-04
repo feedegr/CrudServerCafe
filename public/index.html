@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso denegado</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cafe</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+  <h1>Cafe - Sign Out/ Sign In</h1>
+  <div id="buttonDiv"></div> 
+  <button class="g_id_signout">Sign Out</button>
 
-    <h1>Acceso Denegado</h1>
-    
+  <script>
+    const button = document.querySelector('.g_id_signout');
+    button.onclick = () => {
+      google.accounts.id.disableAutoSelect();
+      console.log('User signed out.');
+    };
+
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: '940241063673-va8raleo2rlvgmpkdh3gh8ki2prl4b0d.apps.googleusercontent.com',
+        callback: handleCredentialResponse
+      });
+      google.accounts.id.renderButton(
+            document.getElementById("buttonDiv"),
+            { theme: "outline", size: "large" }  // customization attributes
+          );
+      google.accounts.id.prompt();
+    };
+
+    function handleCredentialResponse(response) {
+      console.log("Encoded JWT ID token: " + response.credential);
+      }
+  </script>
+  
 </body>
 </html>
